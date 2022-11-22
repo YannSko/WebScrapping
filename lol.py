@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import urllib
 import re
 import requests
+import csv
 
 driver = webdriver.Firefox()
 for i in range(0, 27):
@@ -19,12 +20,22 @@ for i in range(0, 27):
     Marque = driver.find_elements(By.CLASS_NAME, 'brandTitle')
     PageObjet = driver.find_elements(By.CLASS_NAME, 'list_item-link')
     #Expérience = driver.find_elements(By.CLASS_NAME,'entity-list-meta__entities-list')
-
+    # NomObj=[]
+    # PrixObj=[]
+    # MarqueObj=[]
+with open('DataAchatSki.csv', 'wt', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    writer.writerow(['NomObjet', 'PrixObjet', 'MarqueObjet'])
     for i in range(0, len(NomObjet)):
         print(NomObjet[i].text)
         print(Price[i].text)
         print(Marque[i].text)
-
+        writer.writerow([NomObjet[i].text])
+        writer.writerow([Price[i].text])
+        writer.writerow([Marque[i].text])
+        # NomObj.append(NomObjet[i].text)
+        # PrixObj.append(Price[i].text)
+        # MarqueObj.append(Marque[i].text)
         # driver.findElement(By.linkText("App Configuration")).click()
 
 
@@ -33,4 +44,6 @@ for i in range(0, 27):
 # elem.send_keys("pycon")
 # elem.send_keys(Keys.RETURN)
 
+    #writer.writerow([NomObjet.encode('utf-8'), Price.encode('utf-8'), Marque.encode('utf-8')])
+    file.close()
 driver.close()
