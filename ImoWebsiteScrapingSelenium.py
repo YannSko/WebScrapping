@@ -23,14 +23,19 @@ page_tabs = [x.get_attribute('href') for x in driver.find_elements(By.CLASS_NAME
 for i in range(len(page_tabs)):
     
     driver.get(page_tabs[i])
-    dAdress = driver.find_elements(By.CLASS_NAME,"fullAddress")
-    print(dAdress)
-    data1.append(dAdress)
-    print('Page navigated after click: ' + driver.title)
+    time.sleep(5)
+    
+    Offers= driver.find_elements(By.CLASS_NAME,"detailedSheetContainer")
+    for Offer in Offers:
+        Adress = Offer.find_elements(By.CLASS_NAME,"fullAddress")
+        print(Adress[0].text)
+        AdressStock = Adress[0].text
+        data1.append(AdressStock)
+        print('Page navigated after click: ' + driver.title)
 #or link in LinkAppart:
     #or a in range(len(dAdress)):
-    for o in range (len(data1)):
-        print(data1[o])
+        for o in range (len(data1)):
+            print(data1[o])
    #OneAppart = link.get_attribute('href')
    #print(OneAppart)
    #OneAppart.click()
