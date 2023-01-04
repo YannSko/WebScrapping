@@ -1,11 +1,47 @@
 import matplotlib.pyplot as plt
+
 import pandas as pd
-df =  pd.read_csv('ECommerce_consumer behaviour.csv')
-country_data = df["country"]
-medal_data = df["gold_medal"]
-colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#8c564b"]
-explode = (0.1, 0, 0, 0, 0)  
-plt.pie(medal_data, labels=country_data, explode=explode, colors=colors,
-autopct='%1.1f%%', shadow=True, startangle=140)
-plt.title("Gold medal achievements of five most successful\n"+"countries in 2016 Summer Olympics")
-plt.show()
+
+import csv
+
+from collections import Counter
+
+​
+
+with open('ECommerce_consumer behaviour.csv', newline='') as csvfile:
+
+    reader = csv.DictReader(csvfile)
+
+    for row in reader:
+
+        
+
+        #print(row['department'])
+
+        list=[]
+
+        list.append(row['department'])
+
+        #print(list[i])
+
+        
+
+​
+
+counts = Counter(list)
+
+print(counts)        
+
+#df = pd.read_csv('ECommerce_consumer behaviour.csv')
+
+#data = df['department']
+
+#plt.pie(data, labels=data.unique(), colors=['red', 'green', 'blue'])
+
+​
+
+#plt.show()
+
+​
+
+Counter({'product'})
