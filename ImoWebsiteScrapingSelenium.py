@@ -2,7 +2,7 @@ driver = webdriver.Firefox()
 data1=[]
 Checklist=[]
 
-for p in range(0,3):
+for p in range(0,2):
     driver.get(f'https://www.bienici.com/recherche/achat/paris-75000?page={p}')
     time.sleep(3)
     #Manger le cookie
@@ -61,9 +61,12 @@ for p in range(0,3):
                 pass
 #or link in LinkAppart:
     #or a in range(len(dAdress)):
-for o in range (len(data1)):
-    print(data1[o])
+#for o in range (len(data1)):
+    #print(data1[o])
+print(data1)
+data = sorted(data1)
+
 with open('ImoParisBienIci.csv', 'wt',encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(['Adress', 'Price', 'PirceMeter','MeterTot','RoomNbr','DescripAppart','DescripQuartier'])    
-    writer.writerows(data1)
+    writer.writerows(data)
