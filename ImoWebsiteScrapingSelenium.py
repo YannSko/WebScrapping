@@ -40,6 +40,14 @@ for p in range(0,2):
                     DescripTieks = Offer.find_elements(By.CLASS_NAME,"neighborhoodDescription")
                     
                     print(Adress[0].text)
+                    Adresse = Adress[0].text
+                    chaine = Adresse
+                    pos1 = chaine.find("750")
+                    pos2 = chaine.find(" (")
+                    Arrondissement= chaine[pos1:pos2]
+                    neighborhood = chaine[pos2:]
+                    print(f"l'Arrondissement est {Arrondissement}")
+                    print(f"Le Quartier est {neighborhood}")
                     print(Price[0].text)
                     print(PriceMeter[0].text)
                     print(MeterTot[0].text)
@@ -52,7 +60,7 @@ for p in range(0,2):
                         print("Pas de Description")
                         DescripTiek = "Pas de Description"
                     
-                    data1.append([Adress[0].text,Price[0].text,PriceMeter[0].text,MeterTot[0].text,RoomNbr[0].text,DescripAppart[0].text,DescripTiek])
+                    data1.append([Arrondissement,neighborhood ,Price[0].text,PriceMeter[0].text,MeterTot[0].text,RoomNbr[0].text,DescripAppart[0].text,DescripTiek])
                     print('Page navigated after click: ' + driver.title)
                     Checklist.append(driver.title)
             
@@ -68,5 +76,6 @@ data = sorted(data1)
 
 with open('ImoParisBienIci.csv', 'wt',encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['Adress', 'Price', 'PirceMeter','MeterTot','RoomNbr','DescripAppart','DescripQuartier'])    
+    writer.writerow(['Arrondissement', 'Neighborhood', 'Price', 'PriceMeter','MeterTot','RoomNbr','DescripAppart','DescripQuartier'])    
     writer.writerows(data)
+
