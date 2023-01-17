@@ -1,10 +1,30 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+import pandas as pd
+from bs4 import BeautifulSoup
+import urllib
+import re
+import requests
+import csv
+import time
+
+
+
+
 driver = webdriver.Firefox()
 data1=[]
 Checklist=[]
 
-for p in range(0,2):
-    driver.get(f'https://www.bienici.com/recherche/achat/paris-75000?page={p}')
-    time.sleep(3)
+for p in range(0,100):
+    try:
+        driver.execute_script(f"location.href='https://www.bienici.com/recherche/achat/paris-75000?page={p}';")
+    #driver.get(f'https://www.bienici.com/recherche/achat/paris-75000?page={p}')
+        time.sleep(3)
+    except:
+        pass
     #Manger le cookie
     try:
     
@@ -33,10 +53,10 @@ for p in range(0,2):
                 for Offer in Offers:
                     Adress = Offer.find_elements(By.CLASS_NAME,"fullAddress")
                     Price = Offer.find_elements(By.CLASS_NAME,"ad-price__the-price")
-                    PriceMeter = Offer.find_elements(By.CLASS_NAME,"ad-price__price-per-square-meter")
-                    MeterTot = Offer.find_elements(By.XPATH, '/html/body/div[2]/section/div/div[3]/section[3]/div[1]/div[4]/span')
-                    RoomNbr = Offer.find_elements(By.XPATH, '/html/body/div[2]/section/div/div[3]/section[3]/div[1]/div[5]/span')
-                    DescripAppart = Offer.find_elements(By.CLASS_NAME,"descriptionContent")
+                    PriceMeters = Offer.find_elements(By.CLASS_NAME,"ad-price__price-per-square-meter")
+                    MeterTots = Offer.find_elements(By.XPATH, '/html/body/div[2]/section/div/div[3]/section[3]/div[1]/div[4]/span')
+                    RoomNbrs = Offer.find_elements(By.XPATH, '/html/body/div[2]/section/div/div[3]/section[3]/div[1]/div[5]/span')
+                    DescripApparts = Offer.find_elements(By.CLASS_NAME,"descriptionContent")
                     DescripTieks = Offer.find_elements(By.CLASS_NAME,"neighborhoodDescription")
                     
                     print(Adress[0].text)
@@ -49,18 +69,39 @@ for p in range(0,2):
                     print(f"l'Arrondissement est {Arrondissement}")
                     print(f"Le Quartier est {neighborhood}")
                     print(Price[0].text)
-                    print(PriceMeter[0].text)
-                    print(MeterTot[0].text)
-                    print(RoomNbr[0].text)
-                    print( DescripAppart[0].text)
+                    try:
+                        print(PriceMeters[0].text)
+                        PriceMeter=PriceMeters[0].text
+                    except:
+                        print( "Prix metre carré non renseingné")
+                        PriceMeter= "NaN"
+                    try:
+                        print(MeterTots[0].text)
+                        MeterTot = MeterTots[0].text
+                    except:
+                        print(" Pas de superficie total renseigné")
+                        MeterTot = "NaN"
+                    try:
+                        print(RoomNbrs[0].text)
+                        RoomNbr = RoomNbrs[0].text
+                    except:
+                        print("Nombre de pièce non renseigné")
+                        RoomNbr = "NaN"
+                        
+                    try:
+                        print( DescripApparts[0].text)
+                        DescripAppart = DescripApparts[0].text
+                    except:
+                        print( " pas de description appart")
+                        DescripAppart= "NaN"
                     try:
                         print( DescripTieks[0].text)
                         DescripTiek= DescripTieks[0].text
                     except:
                         print("Pas de Description")
-                        DescripTiek = "Pas de Description"
+                        DescripTiek = "NaN"
                     
-                    data1.append([Arrondissement,neighborhood ,Price[0].text,PriceMeter[0].text,MeterTot[0].text,RoomNbr[0].text,DescripAppart[0].text,DescripTiek])
+                    data1.append([Arrondissement,neighborhood ,Price[0].text,PriceMeter,MeterTot,RoomNbr,DescripAppart,DescripTiek])
                     print('Page navigated after click: ' + driver.title)
                     Checklist.append(driver.title)
             
