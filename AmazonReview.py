@@ -24,12 +24,14 @@ for p in range(0, 2):
                 name = feature.find_element(By.XPATH,'//span[@class="a-size-large product-title-word-break"]').text
                 price = feature.find_element(By.XPATH, '//span[@class="a-price-whole"]').text
                 rating = feature.find_element(By.XPATH, '//span[@class="a-icon-alt"]').get_attribute('textContent')
-                table = []
+                table = {}
                 for info_table in feature.find_elements(By.XPATH, '//table[@class="a-keyvalue prodDetTable"]'):
-                    for row in info_table.find_elements(By.XPATH, '//tr'):
-                        key = row.find_element(By.XPATH, '//th[@class="a-color-secondary a-size-base prodDetSectionEntry"]').text
-                        value = row.find_element(By.XPATH, '//td[@class="a-size-base prodDetAttrValue"]').text
-                        table = [key,value]
+                    keys = info_table.find_elements(By.XPATH, '//th[@class="a-color-secondary a-size-base prodDetSectionEntry"]')
+                    values = info_table.find_elements(By.XPATH, '//td[@class="a-size-base prodDetAttrValue"]')
+                    for i in range(min(len(keys), len(values))):
+                        key = keys[i].text
+                        value = values[i].text
+                        table[key] = value
                 data.append({"Name": name, "Price": price, "Rating": rating, "InfoSupplementaire": table})
                 print(data)
 
